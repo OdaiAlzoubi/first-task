@@ -37,6 +37,8 @@ $(document).ready(function () {
     });
 
     $(document).on("click", "#deleteItem", function () {
+        var userId=$(this).data('id');
+        var row = $('#user-' + userId);
         Swal.fire({
             title: `Are you sure you want to delete the ${$(this).data(
                 "item"
@@ -65,6 +67,7 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         // $("tr[data-id=" + id + "]").remove();
+                        row.fadeOut(500, function() { $(this).remove(); });
                         Swal.fire({
                             title: response.message,
                             icon: "success",

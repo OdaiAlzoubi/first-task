@@ -22,7 +22,7 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         $rules = [];
-        $rules['name'] = ['required', 'string', 'min:3'];
+        $rules['name'] = ['required', 'string', 'min:3','unique:subjects,name'];
         $rules['pass_mark'] = ['required', 'integer'];
         return $rules;
     }

@@ -62,7 +62,7 @@
                 @include('common.alert')
                 @yield('content')
                 <!--begin::Footer-->
-                @include('layouts.partials.footer')
+                {{-- @include('layouts.partials.footer') --}}
             </div>
         </div>
     </div>

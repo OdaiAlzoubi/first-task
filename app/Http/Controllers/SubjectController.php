@@ -26,7 +26,7 @@ class SubjectController extends Controller
         $subjectsEnrolled = Subject::join('marks', 'subjects.id', '=', 'marks.subject_id')
             ->where('marks.student_id', $id)
             ->select('subjects.*')
-            ->get();
+            ->pluck('name','id');
         return response()->json([
             'data' => $subjectsEnrolled,
         ], 200);
@@ -36,14 +36,14 @@ class SubjectController extends Controller
     {
         // $subjectsNotEnrolled = Subject::whereNotIn('id', function ($query) use ($id) {
         //     $query->select('subject_id')->from('marks')->where('student_id', $id);
-        // })->get();
+        // })->pluck('name','id');
         $subjectsNotEnrolled = Subject::leftJoin('marks', function ($join) use ($id) {
             $join->on('subjects.id', '=', 'marks.subject_id')
                 ->where('marks.student_id', '=', $id);
         })
             ->whereNull('marks.subject_id')
             ->select('subjects.*')
-            ->get();
+            ->pluck('name','id');
         return response()->json([
             'data' => $subjectsNotEnrolled,
         ], 200);

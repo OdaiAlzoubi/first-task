@@ -1,4 +1,4 @@
-@props(['class'=>''])
-<tr class="{{ $class }}">
+@props(['class'=>'','id'=>''])
+<tr class="{{ $class }}" id="{{ $id }}">
     {{ $slot }}
 </tr>

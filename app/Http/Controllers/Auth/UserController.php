@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Constants\User\UserStatusConstants;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\StoreUserRequest;
 use App\Http\Requests\Auth\UpdateUserRequest;
 
@@ -15,46 +11,23 @@ class UserController extends Controller
 {
     public function __construct(protected UserRepository $userRepository) {}
 
-    public function registerHome()
+    public function store(StoreUserRequest $request)
     {
-        return view('auth.register');
+        $user = $this->userRepository->create($request->validated());
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+            'message' => 'User created successfully!',
+        ], 201);
     }
-    public function register(StoreUserRequest $request)
-    {
-        $this->userRepository->create($request->validated());
-        return redirect()->route('login')->with('success', 'User registered successfully.');
-    }
-
-    public function loginHome()
-    {
-        return view('auth.login');  // Login Form View
-    }
-
-    public function login(LoginRequest $request)
-    {
-        $data = $request->validated();
-        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-            request()->session()->regenerate();
-            if (Auth::user()->status == UserStatusConstants::INACTIVE) {
-                return redirect()->back()->with('error', 'The account is inactive, please wait for the administrator to activate your account.');
-            }
-            return redirect()->route('dashboard')->with('success', 'Login');
-        }
-        return redirect()->back()->with('error', 'Invalid');
-    }
-
-    public function logout(){
-        Auth::logout();
-        return redirect()->route('login.home')->with('success', 'Logout');
-    }
-
     public function update($id, UpdateUserRequest $request)
     {
         $isFind = $this->userRepository->findById($id);
         if ($isFind) {
-            $this->userRepository->update($id, $request->validated());
+            $user= $this->userRepository->update($id, $request->validated());
             return response()->json([
                 'success' => true,
+                'user' => $user,
                 'message' => 'User updated successfully!',
             ], 200);
         }

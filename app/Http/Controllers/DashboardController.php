@@ -28,4 +28,29 @@ class DashboardController extends Controller
         $tables = $this->dashboardService->studentTable();
         return view('dashboard', ['user' => $user, 'tables' => $tables]);
     }
+
+    public function getFromStudentToSubject()
+    {
+        return response()->json([
+            'data'=>$this->dashboardService->fromStudentToSubject(),
+        ],200);
+        // return $this->dashboardService->fromStudentToSubject();
+    }
+
+    public function getFormUser(){
+        return response()->json([
+            'data'=>$this->dashboardService->formUser(),
+        ],200);
+    }
+
+    public function getFormSubject(){
+        return response()->json([
+            'data'=>$this->dashboardService->formSubject(),
+        ],200);
+    }
+    public function getFormMark(){
+        return response()->json([
+            'data'=>$this->dashboardService->formMark(),
+        ],200);
+    }
 }

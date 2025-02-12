@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
         $rules = [];
         $rules['name'] = ['nullable', 'min:3', 'string'];
         $rules['username'] = ['required', 'min:8', 'string'];
-        $rules['email'] = ['required', 'email', 'exists:users,email'];
+        $rules['email'] = ['required', 'email', 'unique:users,email,'.$this->id];
         $rules['password'] = ['nullable', 'min:8', 'confirmed'];
         $rules['status'] = ['nullable', Rule::in(array_keys(UserStatusConstants::STATUS))];
         $rules['roles'] = ['nullable', Rule::in(array_keys(UserRoleConstants::ROLES))];
