@@ -118,7 +118,6 @@ $(document).ready(function () {
                 if (thisForm.hasClass("editTableUser")) {
                     var existingRow = $("#user-" + response.user.id);
                     if (existingRow.length > 0) {
-                        console.log(response.user.username);
                         existingRow
                             .find(".username")
                             .text(response.user.username);

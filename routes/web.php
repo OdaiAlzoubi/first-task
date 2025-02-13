@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
@@ -31,19 +32,23 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::group(['prefix' => 'subject', 'as' => 'subject.'], function () {
         Route::post('/store', [SubjectController::class, 'store'])->name('store');
-        Route::get('/get/subject/from/student/{id}', [SubjectController::class,'getSubjectsFromUser'])->name('getSubjectsFromUser');
-        Route::get('/get/not/subject/from/student/{id}', [SubjectController::class,'getNotSubjectsFromUser'])->name('getNotSubjectsFromUser');
+        Route::get('/get/subject/from/student/{id}', [SubjectController::class, 'getSubjectsFromUser'])->name('getSubjectsFromUser');
+        Route::get('/get/not/subject/from/student/{id}', [SubjectController::class, 'getNotSubjectsFromUser'])->name('getNotSubjectsFromUser');
         // Route::put('/subject/{id}', [SubjectController::class, 'update'])->name('update');
         // Route::delete('/delete/{id}', [SubjectController::class, 'destroy'])->name('delete');
     });
     Route::group(['prefix' => 'mark', 'as' => 'mark.'], function () {
         Route::post('/store', [MarkController::class, 'store'])->name('store');
-        Route::post('/add/student/to/subject',[MarkController::class, 'addStudentToSubject'])->name('addStudentToSubject');
+        Route::post('/add/student/to/subject', [MarkController::class, 'addStudentToSubject'])->name('addStudentToSubject');
         // Route::put('/mark/{id}', [MarkController::class, 'update'])->name('update');
         // Route::delete('/delete/{id}', [MarkController::class, 'destroy'])->name('delete');
     });
 
-    // Route::group(['prefix'=>'chat','as'=>'chat.'],function(){
-    //     Route::get('/chat',)
-    // });
+    Route::group(['prefix' => 'chat', 'as' => 'chat.'], function () {
+        Route::get('/chat', [ChatController::class, 'index'])->name('index');
+        Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('getMessages');
+        Route::post('/send/message', [ChatController::class,'sendMessage'])->name('send');
+        Route::get('/fetch/messages', [ChatController::class, 'fetchMessages'])->name('fetchMessages');
+        Route::get('/fetch/user/messages/{id}', [ChatController::class, 'fetchUserMessages'])->name('fetchUserMessages');
+    });
 });

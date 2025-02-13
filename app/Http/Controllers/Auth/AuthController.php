@@ -33,7 +33,6 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $data = $request->validated();
-        // dd(Auth::attempt(['email' => $request->email, 'password' => $request->password]));
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             request()->session()->regenerate();
             if (Auth::user()->status == UserStatusConstants::INACTIVE) {
@@ -47,6 +46,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login.home')->with('success', 'Logout');
+        return redirect()->route('login.home');
     }
 }

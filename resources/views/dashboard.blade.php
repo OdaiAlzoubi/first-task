@@ -33,7 +33,6 @@
                                 @foreach ($tables['second_table'] as $header)
                                     <x-table-th :header="$header" />
                                 @endforeach
-                                {{-- <th class="text-end min-w-70px">Actions</th> --}}
                             </x-table-tr>
                         </thead>
                         <tbody class="fw-semibold text-gray-600">
@@ -48,8 +47,6 @@
                     </table>
                 </div>
             </div>
-            {{-- @include('table', [($headers = $tables['first_table']), ($data = $user)])
-        @include('table', [($headers = $tables['second_table']), ($subject = $user->marks)]) --}}
         </x-slot:body>
     </x-page-index>
 @endsection

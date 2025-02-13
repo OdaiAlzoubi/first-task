@@ -10,7 +10,6 @@ class MarkController extends Controller
 {
     public function store(StoreMarkRequest $request)
     {
-        // Mark::create($request->validated());
         $mark = Mark::where('student_id', $request->student_id)
             ->where('subject_id', $request->subject_id)
             ->first();
@@ -19,7 +18,6 @@ class MarkController extends Controller
             'success' => true,
             'message' => 'Add Mark successfully!',
         ], 200);
-        // $this->addStudentToSubject($request);
     }
 
     public function addStudentToSubject(StoreStudentToSubjectRequest $request)

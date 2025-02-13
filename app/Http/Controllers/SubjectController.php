@@ -20,9 +20,6 @@ class SubjectController extends Controller
 
     public function getSubjectsFromUser($id)
     {
-        // $subjectsEnrolled = Subject::whereHas('marks', function ($query) use ($id) {
-        //     $query->where('student_id', $id);
-        // })->get();
         $subjectsEnrolled = Subject::join('marks', 'subjects.id', '=', 'marks.subject_id')
             ->where('marks.student_id', $id)
             ->select('subjects.*')
@@ -34,9 +31,6 @@ class SubjectController extends Controller
 
     public function getNotSubjectsFromUser($id)
     {
-        // $subjectsNotEnrolled = Subject::whereNotIn('id', function ($query) use ($id) {
-        //     $query->select('subject_id')->from('marks')->where('student_id', $id);
-        // })->pluck('name','id');
         $subjectsNotEnrolled = Subject::leftJoin('marks', function ($join) use ($id) {
             $join->on('subjects.id', '=', 'marks.subject_id')
                 ->where('marks.student_id', '=', $id);
